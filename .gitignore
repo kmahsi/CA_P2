@@ -14,6 +14,7 @@
 
 # ignore simulation output of ModelSim
 wlf*
+*.mpf
 *.wlf
 *.vstf
 *.ucdb
