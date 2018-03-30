@@ -17,7 +17,7 @@ module ALU(inputA, inputB, carryIn, operation, result, carryOut, zero);
 			3'b111: result = inputB &^ inputA;
 			default: result = result;
 		endcase
-		zero = |result;
+		zero = ~(|result);
 	end
 
 endmodule

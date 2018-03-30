@@ -12,6 +12,7 @@ module registerFile(clock, regWrite, writeRegister, writeData, readRegister1, re
     if (regWrite)begin
       registers[writeRegister] <= writeData;
     end
+    registers[0] = 0;
   end
 
 endmodule

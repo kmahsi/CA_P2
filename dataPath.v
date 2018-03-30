@@ -14,6 +14,7 @@ module dataPath(clk, rst, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, 
 	wire [7:0] readData1, readData2;
 	wire [7:0] A, B, DataMemoryAddress;
 	wire [7:0] ALUOUT, SHROOUT, dataMemoryOut;
+	wire [2:0] regFileReadRegister2;
 
 	register #(.size(12)) pc(
 		.clock(clk),
@@ -51,14 +52,14 @@ module dataPath(clk, rst, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, 
 		.instruction(instruction)
 	);
 	mux_2_input  #(.WORD_LENGTH (3)) mux1 (
-		.in1(instruction[7:5]), 
-		.in2(instruction[13:11]), 
+		.in1(instruction[13:11]), 
+		.in2(instruction[7:5]), 
 		.sel(regFileReadRegister2Select), 
 		.out(regFileReadRegister2)
 	);
 	mux_2_input #(.WORD_LENGTH (8) ) mux2 (
-		.in1(readData1), // const
-		.in2(instruction[7:0]), 
+		.in1(instruction[7:0]), // const
+		.in2(readData2), 
 		.sel(ALUBInputSelect), 
 		.out(B)
 	);
@@ -76,7 +77,7 @@ module dataPath(clk, rst, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, 
 		.regWrite(regWrite), 
 		.writeRegister(instruction[13:11]), 
 		.writeData(regFileWriteData), 
-		.readRegister1(instruction[11:8]), 
+		.readRegister1(instruction[10:8]), 
 		.readRegister2(regFileReadRegister2), 
 		.readData1(readData1), 
 		.readData2(readData2)
