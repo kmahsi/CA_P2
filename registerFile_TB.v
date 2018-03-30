@@ -36,7 +36,7 @@ module registerFileTB();
 
   registerFile rf(
     .clock(clk),
-    .enable(enb),
+    .regWrite(enb),
     .writeRegister(wRegister),
     .writeData(wData),
     .readRegister1(rRegister1),

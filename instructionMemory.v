@@ -1,10 +1,12 @@
 module instructionMemory(clock, address, instruction);
 	input clock;
 	input [11:0] address;
-	output [18:0] instruction;
+	output reg [18:0] instruction;
 	wire [18:0] commands [4095:0];
 	// value              2nd dimension of array
-	assign instruction = commands[address];
+	always @(posedge clock) begin
+		instruction <= commands[address];
+	end
 
 
 
