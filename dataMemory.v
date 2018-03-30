@@ -1,4 +1,4 @@
-module dataMemory(clock ,memWrite, memRead, address , data , out);
+module dataMemory(clock, memWrite, memRead, address, data, out);
 	input clock, memWrite, memRead;
 	input[7:0] address, data;
 	output reg[7:0] out;
