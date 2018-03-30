@@ -1,11 +1,11 @@
 module controller (clock, rst, lasttwoBits, lastthreeBits, twoBitFn, threeBitFn, 
-	selectToWrite, selectRd, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
+	selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
 	rstPC, enablePC, rstZero, enableZero, rstCarry, enableCarry, memRead, memWrite);
 
 	input clock, rst;
 	input [1:0]lasttwoBits, twoBitFn; 
 	input  [2:0]lastthreeBits, threeBitFn;
-	output reg selectRd, STM, LDM,
+	output reg selectR2, STM, LDM,
 	 rstPC, enablePC, rstZero, enableZero, rstCarry, enableCarry, memRead, memWrite;
 	output reg[1:0]selectAluArg, selectToWrite;
 	output reg[2:0]ALUfunction;
@@ -20,6 +20,7 @@ module controller (clock, rst, lasttwoBits, lastthreeBits, twoBitFn, threeBitFn,
 			2'b 00 : begin 
 				ALUfunction <= threeBitFn;
 				selectAluArg <= lasttwoBits;
+				selectR2 <= 1'b0; // with 0 signal the mux choses[7:5]
 				selectToWrite <= 2'b00; // with 00 signal the mux choses result of ALU
 				enableCarry= 1'b1;
 				enableZero= 1'b1;
@@ -27,6 +28,7 @@ module controller (clock, rst, lasttwoBits, lastthreeBits, twoBitFn, threeBitFn,
 			2'b 01 : begin 
 				ALUfunction <= threeBitFn;
 				selectAluArg <= lasttwoBits; 
+				selectR2 <= 1'b0; // with 0 signal the mux choses[7:5]
 				selectToWrite <= 2'b01; // with 01 signal the mux choses result of immediate  
 				enableCarry = 1'b1;
 				enableZero = 1'b1;
@@ -52,6 +54,7 @@ module controller (clock, rst, lasttwoBits, lastthreeBits, twoBitFn, threeBitFn,
 				if(twoBitFn == 2'b01) begin	
 					STM <=1'b1;
 					memWrite <= 1'b1;
+					selectR2 <= 1'b1; // with 1 signal the mux choses[13:11]
 				end
 			end 
 		endcase
