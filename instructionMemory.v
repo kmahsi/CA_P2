@@ -13,9 +13,9 @@ module instructionMemory(clock, address, instruction);
 
 	assign commands[0] = {2'b01, 3'b000, 3'b001, 3'b000, 8'd7};
 	assign commands[1] = {2'b00, 3'b000, 3'b011, 3'b001, 3'b001, 5'b00000};
-	assign commands[2] = 20;
-	assign commands[3] = 12;
-	assign commands[4] = 13;
+	assign commands[2] = {2'b00, 3'b010, 3'b010, 3'b001, 3'b011, 5'b00000};
+	assign commands[3] = {3'b100, 2'b01, 3'b010, 3'b001, 8'd60};
+	assign commands[4] = {3'b110, 2'b00, 3'b100, 3'b011, 3'd3, 5'b00000};
 	assign commands[5] = 14;
 	assign commands[6] = 15;
 	assign commands[7] = 16;
