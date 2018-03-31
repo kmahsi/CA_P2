@@ -20,7 +20,14 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 	wire[2:0]threeBitFn;
 	assign threeBitFn = allBits[16:14];
 
+	wire[2:0]lastthreeBits;
+	assign lastthreeBits = allBits[18:16];
+	wire[1:0]twoBitFn;
+	assign twoBitFn = allBits[15:14];
+
+
 	always @(*) begin
+		LDM <= 0; STM <= 0; memRead <= 1'b0;
 		case(lasttwoBits)
 			2'b 00 : begin 
 				LDM <= 1'b1;
@@ -41,14 +48,7 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 				enableZero = 1'b1;
 				end
 		endcase
-	end
 
-	wire[2:0]lastthreeBits;
-	assign lastthreeBits = allBits[18:16];
-	wire[1:0]twoBitFn;
-	assign twoBitFn = allBits[15:14];
-
-	always @(*) begin
 		case(lastthreeBits)
 			3'b 110: begin
 				sh_roFunction <= twoBitFn;
@@ -59,7 +59,7 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 				end
 			3'b 100: begin 
 				if(twoBitFn == 2'b00) begin
-					LDM <=1'b1;
+					LDM <= 1'b1;
 					memRead <= 1'b1;
 					selectToWrite <= 2'b10; // with 01 signal the mux choses result of dataMemory
 					enableCarry = 1'b0;
@@ -67,7 +67,7 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 				end
 
 				if(twoBitFn == 2'b01) begin	
-					STM <=1'b1;
+					STM <= 1'b1;
 					selectR2 <= 1'b0; // with 0 signal the mux choses[13:11]
 					enableCarry = 1'b0;
 					enableZero = 1'b0;

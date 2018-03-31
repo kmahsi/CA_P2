@@ -3,7 +3,7 @@ module mips_single_cycleTB();
   reg rst = 1;
   
 
-  initial repeat (15) #50 clk = ~clk;
+  initial repeat (15) #70 clk = ~clk;
 
   initial begin
     #100
