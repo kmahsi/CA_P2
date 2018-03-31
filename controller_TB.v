@@ -1,16 +1,14 @@
 module controller_TB();
 	reg clk = 0, rst = 0;
-	reg[1:0] lasttwoBits, twoBitFn;
-	reg[2:0] lastthreeBits, threeBitFn;
-	wire selectR2, STM, LDM,
-	 rstPC, enablePC, rstZero, enableZero, rstCarry, enableCarry, memRead, memWrite;
-	wire [1:0]selectAluArg, selectToWrite;
+	reg[18:0] allBits;
+	
+	wire selectAluArg, selectR2, STM, LDM, enablePC, enableZero, enableCarry, memRead, memWrite, Zero, Carry, PC;
+	wire [1:0]selectToWrite;
 	wire [2:0]ALUfunction;
 	wire [1:0]sh_roFunction;
 
-	controller UTT(clk, rst, lasttwoBits, lastthreeBits, twoBitFn, threeBitFn, 
-		selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
-		rstPC, enablePC, rstZero, enableZero, rstCarry, enableCarry, memRead, memWrite);
+	controller UTT(clk, rst, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
+		enablePC, enableZero, enableCarry, memRead, memWrite, Zero, Carry, PC);
 
 	initial repeat (1000) #1 clk = ~clk;
 
@@ -20,14 +18,18 @@ module controller_TB();
 		#5;
 		rst = 1'b0;
 		#5;
-		lasttwoBits = 2'b00;
+		allBits = 19'b 0000010010101100000;
 		#10;
-		lasttwoBits = 2'b01;
+		allBits = 19'b 0111111110000010000;
 		#10;
-		lastthreeBits = 3'b110;
+		allBits = 19'b 1101100110001000000;
 		#10;
-		lastthreeBits = 3'b100;
-		
+		allBits = 19'b 1000010010100010000;
+		#10;
+		allBits = 19'b 1000110010100010000;
 		#10;
 	end 
 endmodule 
+
+// reg[1:0] lasttwoBits, twoBitFn;
+// 	reg[2:0] lastthreeBits, threeBitFn;
