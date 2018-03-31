@@ -1,7 +1,7 @@
 module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction,
 	STM, LDM, enablePC, enableZero, enableCarry, memRead);
 
-	input clock, rst;
+	input clock;
 	input[18:0]allBits;
 
 	output reg selectR2, selectAluArg, STM, LDM, enablePC, enableZero, enableCarry, memRead;

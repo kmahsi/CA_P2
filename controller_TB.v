@@ -7,7 +7,7 @@ module controller_TB();
 	wire [2:0]ALUfunction;
 	wire [1:0]sh_roFunction;
 
-	controller UTT(clk, rst, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
+	controller UTT(clk, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
 		enablePC, enableZero, enableCarry, memRead);
 
 	initial repeat (1000) #1 clk = ~clk;

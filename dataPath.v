@@ -1,10 +1,10 @@
-module dataPath(clk, rst, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, ALUBInputSelect, ALUOperation, regFileWriteDataSelect, SHROOperation, DMMemWrite, DMMemRead);
+module dataPath(clk, rst, instruction, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, ALUBInputSelect, ALUOperation, regFileWriteDataSelect, SHROOperation, DMMemWrite, DMMemRead);
 	input clk, rst;
 	input pcEn, CEn, ZEn;
 	input regWrite, DMMemWrite, DMMemRead;
 	wire [11: 0] pcInput, pcOutput;
 	wire CInput, COutput, ZInput, ZOutput;
-	wire [18:0] instruction;
+	input [18:0] instruction;
 	input [1:0] SHROOperation;
 	input regFileReadRegister2Select, ALUBInputSelect;
 	input [2:0] ALUOperation;
