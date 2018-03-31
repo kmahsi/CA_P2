@@ -1,11 +1,10 @@
-module controller (clock, rst, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction,
-	STM, LDM, enablePC, enableZero, enableCarry, memRead, memWrite, Zero, Carry, PC);
+module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction,
+	STM, LDM, enablePC, enableZero, enableCarry, memRead);
 
 	input clock, rst;
 	input[18:0]allBits;
 
-	output reg selectR2, selectAluArg, STM, LDM, enablePC, enableZero, enableCarry, memRead, memWrite;
-	output reg Zero, Carry, PC;
+	output reg selectR2, selectAluArg, STM, LDM, enablePC, enableZero, enableCarry, memRead;
 	output reg[1:0]selectToWrite;
 	output reg[2:0]ALUfunction;
 	output reg[1:0]sh_roFunction;
@@ -66,7 +65,6 @@ module controller (clock, rst, allBits, selectToWrite, selectR2, selectAluArg, A
 
 				if(twoBitFn == 2'b01) begin	
 					STM <=1'b1;
-					memWrite <= 1'b1;
 					selectR2 <= 1'b0; // with 0 signal the mux choses[13:11]
 					enableCarry = 1'b0;
 					enableZero = 1'b0;
@@ -74,12 +72,5 @@ module controller (clock, rst, allBits, selectToWrite, selectR2, selectAluArg, A
 			end 
 		endcase
 	end
-
-	always @(posedge clock)
-		if(rst) begin 
-			Zero <= 1'b0;
-			Carry <= 1'b0;
-			PC <=1'b0;
-		end 
 
 endmodule

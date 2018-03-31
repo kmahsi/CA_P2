@@ -2,13 +2,13 @@ module controller_TB();
 	reg clk = 0, rst = 0;
 	reg[18:0] allBits;
 	
-	wire selectAluArg, selectR2, STM, LDM, enablePC, enableZero, enableCarry, memRead, memWrite, Zero, Carry, PC;
+	wire selectAluArg, selectR2, STM, LDM, enablePC, enableZero, enableCarry, memRead;
 	wire [1:0]selectToWrite;
 	wire [2:0]ALUfunction;
 	wire [1:0]sh_roFunction;
 
 	controller UTT(clk, rst, allBits, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
-		enablePC, enableZero, enableCarry, memRead, memWrite, Zero, Carry, PC);
+		enablePC, enableZero, enableCarry, memRead);
 
 	initial repeat (1000) #1 clk = ~clk;
 
