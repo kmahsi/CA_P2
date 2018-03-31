@@ -23,6 +23,7 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 	always @(*) begin
 		case(lasttwoBits)
 			2'b 00 : begin 
+				LDM <= 1'b1;
 				ALUfunction <= threeBitFn;
 				selectAluArg <= ~bit_17_; // with 1 signal the mux choses usual 
 				selectR2 <= 1'b1; // with 1 signal the mux choses[7:5]
@@ -31,6 +32,7 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 				enableZero= 1'b1;
 				end
 			2'b 01 : begin 
+				LDM <= 1'b1;
 				ALUfunction <= threeBitFn;
 				selectAluArg <= ~bit_17_; //with 0 signal the mux choses immediate 
 				selectR2 <= 1'b1; // with 1 signal the mux choses[7:5]
@@ -53,6 +55,7 @@ module controller (clock, allBits, selectToWrite, selectR2, selectAluArg, ALUfun
 				selectToWrite <= 2'b01; // with 01 signal the mux choses result of shift_rotate
 				enableCarry = 1'b0;
 				enableZero = 1'b0;
+				LDM <= 1'b1;
 				end
 			3'b 100: begin 
 				if(twoBitFn == 2'b00) begin
