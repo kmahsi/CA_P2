@@ -1,20 +1,24 @@
-module dataPath(clk, rst, instruction, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, ALUBInputSelect, ALUOperation, regFileWriteDataSelect, SHROOperation, DMMemWrite, DMMemRead);
+module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, ALUBInputSelect, ALUOperation, regFileWriteDataSelect, SHROOperation, DMMemWrite, DMMemRead, pc3inputMuxSelectAddress, COutput, ZOutput);
+	
 	input clk, rst;
-	input pcEn, CEn, ZEn;
+	input pcEn, CEn, ZEn, push, pop, RET;
 	input regWrite, DMMemWrite, DMMemRead;
-	wire [11: 0] pcInput, pcOutput;
-	wire CInput, COutput, ZInput, ZOutput;
-	input [18:0] instruction;
 	input [1:0] SHROOperation;
 	input regFileReadRegister2Select, ALUBInputSelect;
 	input [2:0] ALUOperation;
 	input [1:0] regFileWriteDataSelect;
+	input [1:0] pc3inputMuxSelectAddress;
+	wire [11: 0] pcInput, pcOutput, increamentedPC, pcMuxInput1, pcMuxInput2, increamentedPCPlusDISP;
+	wire CInput, ZInput;
+	output COutput, ZOutput;
 	wire [7:0] regFileWriteData;
 	wire [2:0] regFileWriteRegister;
 	wire [7:0] readData1, readData2;
 	wire [7:0] A, B, DataMemoryAddress;
 	wire [7:0] ALUOUT, SHROOUT, dataMemoryOut;
 	wire [2:0] regFileReadRegister2;
+
+	output [18:0] instruction;
 
 	register #(.size(12)) pc(
 		.clock(clk),
@@ -43,9 +47,37 @@ module dataPath(clk, rst, instruction, pcEn, CEn, ZEn, regWrite, regFileReadRegi
 	adder #(.size(12)) pcAdder(
 		.inputA(pcOutput),
 		.inputB(12'd1),
-		.result(pcInput)
+		.result(increamentedPC)
 	);
 
+	stack  ST(
+		.clock(clk), 
+		.push(push), 
+		.pop(pop), 
+		.result(pcMuxInput2), 
+		.in(increamentedPC)
+	);
+
+	adder #(.size(12)) branchIf(
+		.inputA(increamentedPC),
+		.inputB({{4{instruction[7]}},instruction[7:0]}),
+		.result(increamentedPCPlusDISP)
+	);	
+
+	mux_3_input #(.WORD_LENGTH(12)) mux6(
+		.in1(increamentedPC), 
+		.in2(increamentedPCPlusDISP), 
+		.in3(instruction[11:0]), 
+		.sel(pc3inputMuxSelectAddress), 
+		.out(pcMuxInput1)
+		);
+
+	mux_2_input  #(.WORD_LENGTH (12)) mux7 (
+		.in1(pcMuxInput1), 
+		.in2(pcMuxInput2), 
+		.sel(RET), 
+		.out(pcInput)
+	);
 	instructionMemory insMemory(
 		.clock(clk), 
 		.address(pcOutput), 

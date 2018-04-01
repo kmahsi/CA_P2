@@ -22,10 +22,12 @@ module mips_single_cycle(clk, rst);
     .enableCarry(CEn), 
     .memRead(memRead)
   );
-
   dataPath DP(
     .clk(clk), 
     .rst(rst),
+    .push(), 
+    .pop(), 
+    .RET(),
     .instruction(instruction),
     .pcEn(pcEn), 
     .CEn(CEn), 
@@ -37,6 +39,10 @@ module mips_single_cycle(clk, rst);
     .regFileWriteDataSelect(regFileWriteDataSelect), 
     .SHROOperation(sh_roFunction), 
     .DMMemWrite(memWrite), 
-    .DMMemRead(memRead)
-  );
+    .DMMemRead(memRead),
+    .pc3inputMuxSelectAddress(), 
+    .COutput(), 
+    .ZOutput()
+ );
+
 endmodule

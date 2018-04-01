@@ -4,6 +4,12 @@ module dataPathTB();
 	reg pcEn = 1;
 	reg CEn = 0;
 	reg ZEn = 0;
+	reg push = 0;
+	reg pop = 0;
+	reg RET = 0;
+	reg [1:0] pc3inputMuxSelectAddress = 0;
+	wire [18:0]instruction;
+	wire COutput,ZOutput;
 	reg regWrite = 1;
 	reg regFileReadRegister2Select = 1;
 	reg ALUBInputSelect = 0;
@@ -41,10 +47,14 @@ module dataPathTB();
 		
 	end
 
-
+   
 	dataPath DP(
 		.clk(clk), 
 		.rst(rst),
+		.push(push), 
+    	.pop(pop), 
+    	.RET(RET),
+    	.instruction(instruction),
 		.pcEn(pcEn), 
 		.CEn(CEn), 
 		.ZEn(ZEn), 
@@ -55,7 +65,10 @@ module dataPathTB();
 		.regFileWriteDataSelect(regFileWriteDataSelect), 
 		.SHROOperation(SHROOperation), 
 		.DMMemWrite(DMMemWrite), 
-		.DMMemRead(DMMemRead)
+		.DMMemRead(DMMemRead),
+		.pc3inputMuxSelectAddress(pc3inputMuxSelectAddress), 
+    	.COutput(COutput), 
+    	.ZOutput(ZOutput)
 	);
 
 endmodule
