@@ -11,7 +11,7 @@ module controller_TB();
 	controller UTT(clk, allBits, Zero, CarryOut, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction, STM, LDM,
 		enablePC, enableZero, enableCarry, memRead, selectAdress, push, pop, RET);
 
-	initial repeat (1000) #20 clk = ~clk;
+	initial repeat (1000) #70 clk = ~clk;
 
 	initial begin 	
 		#3;

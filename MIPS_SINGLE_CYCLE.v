@@ -1,5 +1,5 @@
-module mips_single_cycle(clk, rst);
-  input clk, rst;
+module mips_single_cycle(clk, rst, init);
+  input clk, rst, init;
   wire [18:0] instruction;
   wire [1:0] regFileWriteDataSelect;
   wire selectR2, ALUBInputSelect;
@@ -11,6 +11,7 @@ module mips_single_cycle(clk, rst);
   wire Zero, CarryOut;
   
   controller CU(
+    .init_signal(init),
     .clock(clk), 
     .allBits(instruction), 
     .Zero(Zero), 

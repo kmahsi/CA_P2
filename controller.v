@@ -1,7 +1,7 @@
-module controller (clock, allBits, Zero, CarryOut, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction,
+module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction,
 	STM, LDM, enablePC, enableZero, enableCarry, memRead,selectAdress, push, pop, RET);
 
-	input clock;
+	input clock, init_signal;
 	input[18:0]allBits;
 	input Zero, CarryOut;
 
@@ -31,7 +31,7 @@ module controller (clock, allBits, Zero, CarryOut, selectToWrite, selectR2, sele
 	wire[5:0]lastsixBits;
 	assign lastsixBits = allBits[18:13];
 
-	always @(*) begin
+	always @(init_signal) begin
 		LDM <= 1'b0; STM <= 1'b0; memRead <= 1'b0;
 		enableCarry <= 1'b0;
 		enableZero <= 1'b0;
