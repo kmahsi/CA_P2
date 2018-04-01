@@ -20,7 +20,6 @@ module controller (clock, allBits, Zero, CarryOut, selectToWrite, selectR2, sele
 	assign lasttwoBits = allBits[18:17];
 	wire[2:0]threeBitFn;
 	assign threeBitFn = allBits[16:14];
-
 	wire[2:0]lastthreeBits;
 	assign lastthreeBits = allBits[18:16];
 	wire[1:0]twoBitFn;
@@ -36,7 +35,7 @@ module controller (clock, allBits, Zero, CarryOut, selectToWrite, selectR2, sele
 		LDM <= 1'b0; STM <= 1'b0; memRead <= 1'b0;
 		enableCarry <= 1'b0;
 		enableZero <= 1'b0;
-		push <= 1'b0; pop <= 1'b0; RET <= 1'b0;
+		push <= 1'b0; pop <= 1'b0; RET <= 1'b0; selectAdress <=2'b00;
 
 		case(lasttwoBits)
 			2'b 00 : begin 
@@ -81,19 +80,19 @@ module controller (clock, allBits, Zero, CarryOut, selectToWrite, selectR2, sele
 
 		case(lastthreeBits)
 			3'b 101: begin
-				if ({twoBitFn , Zero} == 3'b 001) selectAdress <= 2'b00;
+				// if ({twoBitFn , Zero} == 3'b 001) selectAdress <= 2'b00;
 
 				if ({twoBitFn , Zero} == 3'b 000) selectAdress <= 2'b01;
 
-				if ({twoBitFn , Zero} == 3'b 010) selectAdress <= 2'b00;
+				// if ({twoBitFn , Zero} == 3'b 010) selectAdress <= 2'b00;
 
 				if ({twoBitFn , Zero} == 3'b 011) selectAdress <= 2'b01;
 
-				if ({twoBitFn , CarryOut} == 3'b 101) selectAdress <= 2'b00;
+				// if ({twoBitFn , CarryOut} == 3'b 101) selectAdress <= 2'b00;
 
 				if ({twoBitFn , CarryOut} == 3'b 100) selectAdress <= 2'b01;
 
-				if ({twoBitFn , CarryOut} == 3'b 110) selectAdress <= 2'b00;
+				// if ({twoBitFn , CarryOut} == 3'b 110) selectAdress <= 2'b00;
 
 				if ({twoBitFn , CarryOut} == 3'b 111) selectAdress <= 2'b01;
 			end
