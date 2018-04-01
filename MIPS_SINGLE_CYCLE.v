@@ -6,10 +6,15 @@ module mips_single_cycle(clk, rst);
   wire [2:0] ALUfunction;
   wire [1:0]sh_roFunction;
   wire memRead, memWrite, regWrite, pcEn, CEn, ZEn;
-
+  wire push, pop, RET;
+  wire [1:0] pc3inputMuxSelectAddress;
+  wire Zero, CarryOut;
+  
   controller CU(
     .clock(clk), 
     .allBits(instruction), 
+    .Zero(Zero), 
+    .CarryOut(CarryOut),
     .selectToWrite(regFileWriteDataSelect), 
     .selectR2(selectR2), 
     .selectAluArg(ALUBInputSelect), 
@@ -20,14 +25,18 @@ module mips_single_cycle(clk, rst);
     .enablePC(pcEn), 
     .enableZero(ZEn), 
     .enableCarry(CEn), 
-    .memRead(memRead)
+    .memRead(memRead),
+    .selectAdress(pc3inputMuxSelectAddress), 
+    .push(push), 
+    .pop(pop),
+    .RET(RET)
   );
   dataPath DP(
     .clk(clk), 
     .rst(rst),
-    .push(), 
-    .pop(), 
-    .RET(),
+    .push(push), 
+    .pop(pop), 
+    .RET(RET),
     .instruction(instruction),
     .pcEn(pcEn), 
     .CEn(CEn), 
@@ -40,7 +49,7 @@ module mips_single_cycle(clk, rst);
     .SHROOperation(sh_roFunction), 
     .DMMemWrite(memWrite), 
     .DMMemRead(memRead),
-    .pc3inputMuxSelectAddress(), 
+    .pc3inputMuxSelectAddress(pc3inputMuxSelectAddress), 
     .COutput(), 
     .ZOutput()
  );
