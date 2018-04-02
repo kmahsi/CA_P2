@@ -31,7 +31,7 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 	wire[5:0]lastsixBits;
 	assign lastsixBits = allBits[18:13];
 
-	always @(init_signal) begin
+	always @(init_signal, allBits) begin
 		LDM <= 1'b0; STM <= 1'b0; memRead <= 1'b0;
 		enableCarry <= 1'b0;
 		enableZero <= 1'b0;
@@ -44,8 +44,8 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 				selectAluArg <= ~bit_17_; // with 1 signal the mux choses usual 
 				selectR2 <= 1'b1; // with 1 signal the mux choses[7:5]
 				selectToWrite <= 2'b00; // with 00 signal the mux choses result of ALU
-				enableCarry= 1'b1;
-				enableZero= 1'b1;
+				enableCarry<= 1'b1;
+				enableZero <= 1'b1;
 				end
 			2'b 01 : begin 
 				LDM <= 1'b1;
@@ -53,8 +53,8 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 				selectAluArg <= ~bit_17_; //with 0 signal the mux choses immediate 
 				selectR2 <= 1'b1; // with 1 signal the mux choses[7:5]
 				selectToWrite <= 2'b00; // with 00 signal the mux choses result of ALU 
-				enableCarry = 1'b1;
-				enableZero = 1'b1;
+				enableCarry <= 1'b1;
+				enableZero <= 1'b1;
 				end
 		endcase
 

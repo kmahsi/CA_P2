@@ -8,7 +8,7 @@ module dataMemory(clock, memWrite, memRead, address, data, out);
 	always @(clock)begin
 		word[8'd100] <= 8'd150;
 		word[8'd101] <= 8'd7;
-		word[8'd102] <= 8'd150;
+		word[8'd102] <= 8'd151;
 		word[8'd103] <= 8'd9;	
 	end
 	
@@ -17,7 +17,7 @@ module dataMemory(clock, memWrite, memRead, address, data, out);
 			word[address] <= data;
 		end
 	end
-		always @(posedge clock) begin
+	always @(memRead , address) begin
 		if (memRead)begin
 			out <= word[address] ;
 		end
