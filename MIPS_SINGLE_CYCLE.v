@@ -51,8 +51,8 @@ module mips_single_cycle(clk, rst, init);
     .DMMemWrite(memWrite), 
     .DMMemRead(memRead),
     .pc3inputMuxSelectAddress(pc3inputMuxSelectAddress), 
-    .COutput(), 
-    .ZOutput()
+    .COutput(CarryOut), 
+    .ZOutput(Zero)
  );
 
 endmodule

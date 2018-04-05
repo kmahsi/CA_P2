@@ -82,19 +82,19 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 			3'b 101: begin
 				// if ({twoBitFn , Zero} == 3'b 001) selectAdress <= 2'b00;
 
-				if ({twoBitFn , Zero} == 3'b 000) selectAdress <= 2'b01;
+				if ({twoBitFn , Zero} == 3'b 001) selectAdress <= 2'b01;
 
 				// if ({twoBitFn , Zero} == 3'b 010) selectAdress <= 2'b00;
 
-				if ({twoBitFn , Zero} == 3'b 011) selectAdress <= 2'b01;
+				if ({twoBitFn , Zero} == 3'b 010) selectAdress <= 2'b01;
 
 				// if ({twoBitFn , CarryOut} == 3'b 101) selectAdress <= 2'b00;
 
-				if ({twoBitFn , CarryOut} == 3'b 100) selectAdress <= 2'b01;
+				if ({twoBitFn , CarryOut} == 3'b 101) selectAdress <= 2'b01;
 
 				// if ({twoBitFn , CarryOut} == 3'b 110) selectAdress <= 2'b00;
 
-				if ({twoBitFn , CarryOut} == 3'b 111) selectAdress <= 2'b01;
+				if ({twoBitFn , CarryOut} == 3'b 110) selectAdress <= 2'b01;
 			end
 		endcase 
 
