@@ -3,7 +3,7 @@ module controller_TB();
 	reg[18:0] allBits;
 	reg Zero =0; reg CarryOut=0;
 	
-	wire selectAluArg, selectR2, STM, LDM, enablePC, enableZero, enableCarry, memRead, push, pop, RET;
+	wire selectAluArg, selectR2, STM, LDM, enablePC, enableZero, enableCarry, memRead, selectCarry, push, pop, RET;
 	wire [1:0]selectToWrite, selectAdress;
 	wire [2:0]ALUfunction;
 	wire [1:0]sh_roFunction;

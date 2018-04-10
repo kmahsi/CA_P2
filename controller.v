@@ -1,11 +1,11 @@
 module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, selectR2, selectAluArg, ALUfunction, sh_roFunction,
-	STM, LDM, enablePC, enableZero, enableCarry, memRead,selectAdress, push, pop, RET);
+	STM, LDM, enablePC, enableZero, enableCarry, memRead, selectAdress, selectCarry, push, pop, RET);
 
 	input clock, init_signal;
 	input[18:0]allBits;
 	input Zero, CarryOut;
 
-	output reg selectR2, selectAluArg, STM, LDM, enablePC, enableZero, enableCarry, memRead, push, pop, RET;
+	output reg selectR2, selectAluArg, STM, LDM, enablePC, enableZero, enableCarry, memRead, selectCarry, push, pop, RET;
 	output reg[1:0]selectToWrite, selectAdress;
 	output reg[2:0]ALUfunction;
 	output reg[1:0]sh_roFunction;
@@ -46,6 +46,7 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 				selectToWrite <= 2'b00; // with 00 signal the mux choses result of ALU
 				enableCarry<= 1'b1;
 				enableZero <= 1'b1;
+				selectCarry <= 1'b0;
 				end
 			2'b 01 : begin 
 				LDM <= 1'b1;
@@ -55,6 +56,7 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 				selectToWrite <= 2'b00; // with 00 signal the mux choses result of ALU 
 				enableCarry <= 1'b1;
 				enableZero <= 1'b1;
+				selectCarry <= 1'b0;
 				end
 		endcase
 
@@ -63,6 +65,8 @@ module controller (init_signal, clock, allBits, Zero, CarryOut, selectToWrite, s
 				sh_roFunction <= twoBitFn;
 				selectToWrite <= 2'b01; // with 01 signal the mux choses result of shift_rotate
 				LDM <= 1'b1;
+				enableCarry <= 1'b1;
+				selectCarry <= 1'b1;
 				end
 			3'b 100: begin 
 				if(twoBitFn == 2'b00) begin

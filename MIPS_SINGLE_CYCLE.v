@@ -8,7 +8,7 @@ module mips_single_cycle(clk, rst, init);
   wire memRead, memWrite, regWrite, pcEn, CEn, ZEn;
   wire push, pop, RET;
   wire [1:0] pc3inputMuxSelectAddress;
-  wire Zero, CarryOut;
+  wire Zero, CarryOut, selCarry;
   
   controller CU(
     .init_signal(init),
@@ -28,6 +28,7 @@ module mips_single_cycle(clk, rst, init);
     .enableCarry(CEn), 
     .memRead(memRead),
     .selectAdress(pc3inputMuxSelectAddress), 
+    .selectCarry(selCarry),
     .push(push), 
     .pop(pop),
     .RET(RET)
@@ -52,7 +53,8 @@ module mips_single_cycle(clk, rst, init);
     .DMMemRead(memRead),
     .pc3inputMuxSelectAddress(pc3inputMuxSelectAddress), 
     .COutput(CarryOut), 
-    .ZOutput(Zero)
+    .ZOutput(Zero),
+    .selectCarry(selCarry)
  );
 
 endmodule

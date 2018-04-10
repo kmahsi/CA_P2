@@ -1,4 +1,4 @@
-module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, ALUBInputSelect, ALUOperation, regFileWriteDataSelect, SHROOperation, DMMemWrite, DMMemRead, pc3inputMuxSelectAddress, COutput, ZOutput);
+module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, regFileReadRegister2Select, ALUBInputSelect, ALUOperation, regFileWriteDataSelect, SHROOperation, DMMemWrite, DMMemRead, pc3inputMuxSelectAddress, COutput, ZOutput, selectCarry);
 	
 	input clk, rst;
 	input pcEn, CEn, ZEn, push, pop, RET;
@@ -10,6 +10,7 @@ module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, 
 	input [1:0] pc3inputMuxSelectAddress;
 	wire [11: 0] pcInput, pcOutput, increamentedPC, pcMuxInput1, pcMuxInput2, increamentedPCPlusDISP;
 	wire CInput, ZInput;
+	input selectCarry;
 	output COutput, ZOutput;
 	wire [7:0] regFileWriteData;
 	wire [2:0] regFileWriteRegister;
@@ -32,7 +33,7 @@ module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, 
 		.clock(clk),
 		.reset(rst),
 		.enable(CEn),
-		.regIn(CInput),
+		.regIn(finalCarry),
 		.regOut(COutput)
 	);
 
@@ -77,6 +78,13 @@ module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, 
 		.in2(pcMuxInput2), 
 		.sel(RET), 
 		.out(pcInput)
+	);
+
+	mux_2_input  #(.WORD_LENGTH (1)) mux8 (
+		.in1(CInput), 
+		.in2(Cshift), 
+		.sel(selectCarry), 
+		.out(finalCarry)
 	);
 	instructionMemory insMemory(
 		.clock(clk), 
@@ -131,7 +139,8 @@ module dataPath(clk, rst,push, pop, RET, instruction, pcEn, CEn, ZEn, regWrite, 
 		.shiftCount(instruction[7:5]), 
 		.data(readData1), 
 		.operation(SHROOperation), 
-		.result(SHROOUT)
+		.result(SHROOUT),
+		.c(Cshift)
 	);
 
 	adder #(.size(8)) dispAdder(

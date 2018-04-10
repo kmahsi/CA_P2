@@ -4,14 +4,16 @@ module shiftRotateTB();
 	reg [7:0] D = 5;
 	reg [1:0] opt = 2'b00;
 	wire [7:0] rslt;
+	wire cshift;
+	
 	initial repeat (10) #50 clk = ~clk;
 	initial begin
 		#40 
 		#20
-		shiftCnt = 3;
+		shiftCnt = 2;
 		#40
-		D = 100;
-		opt = 2'b01;
+		D = 8'b01001100;
+		opt = 2'b00;
 		#50
 		opt = 2'b10;
 		#30
@@ -24,7 +26,8 @@ module shiftRotateTB();
 		.shiftCount(shiftCnt), 
 		.data(D), 
 		.operation(opt),
-		.result(rslt)
+		.result(rslt),
+		.c(cshift)
 	);
 
 endmodule
